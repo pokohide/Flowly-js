@@ -21,3 +21,26 @@ Or download the precompiled files from the release section.
 <!-- or if you prefer minified -->
 <script src="dist/flowly.min.js"></script>
 ```
+
+## Behaviours
+
+
+
+## Build
+
+> As a prerequisite, you will need gulp installed: npm install -g gulp
+
+```
+npm install
+npm run build
+```
+
+gulp will watch the source directory for changes and automatically build the dist files, serving some demo files with live reload.
+
+## Authors
+
+[@pokohide](https://github.com/hyde2able)
+
+## License
+
+Licensed under MIT. Enjoy.

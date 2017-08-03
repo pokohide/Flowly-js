@@ -19,13 +19,25 @@ img {
 }
 
 input {
-  border: 0;
   padding: 10px;
   font-size: 1em;
   font-family: Arial, sans-serif;
   color: #aaa;
   border: solid 1px #ccc;
   margin: 0 0 5px;
+}
+
+select {
+  font-size: 1em;
+  padding: 10px;
+  border: solid 1px #ccc;
+  border-radius: 0;
+  margin: 0 0 5px;
+
+  option {
+    padding: 10px 20px;
+    width: 100%;
+  }
 }
 
 label {
@@ -75,6 +87,10 @@ button {
 
     opacity: .85;
   }
+}
+
+.field {
+  display: flex;
 }
 
 .title {

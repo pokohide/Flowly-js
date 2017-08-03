@@ -16,13 +16,21 @@ class Flowly {
 
     let effect
     if (this.opts.direction === 'horizontal') {
+      t.style.left = `${this.rect.left + this.rect.width}px`
+      t.style.top  = rand(0, this.rect.height - t.clientHeight) + 'px'
       effect = [{
         left: `${this.rect.width}px`
       }, {
         left: `${-t.clientWidth}px`
       }]
     } else if (this.opts.direction === 'vertical') {
-      effect = []
+      t.style.left = rand(0, this.rect.width - t.clientWidth) + 'px'
+      t.style.top  = `${-t.clientHeight}px`
+      effect = [{
+        top: `${-t.clientHeight}px`,
+      }, {
+        top: `${this.rect.height}px`
+      }]
     }
 
     let timing = {}
@@ -39,7 +47,12 @@ class Flowly {
 
   }
 
+  show() {
+
+  }
+
   update(options = {}) {
+    console.log(options)
     this.opts = Object.assign(this.opts, options)
   }
 
@@ -52,8 +65,6 @@ class Flowly {
 
     t.className        = text.className || this.opts.text.className
     t.style.position   = 'absolute'
-    t.style.left       = `${this.rect.left + this.rect.width}px`
-    t.style.top        = rand(0, this.rect.height - size) + 'px'
     t.style.fontSize   = size + 'px'
     t.style.fontWeight = weight
     t.style.color      = color
