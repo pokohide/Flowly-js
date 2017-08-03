@@ -27,21 +27,20 @@ gulp.task('build', ['clean'], () => {
 
 const showError = (arg) => {
   notifier.notify({
-    title: 'Error',
+    title  : 'Error',
     message: '' + arg,
-    sound: 'Basso'
+    sound  : 'Basso'
   })
-  console.log(arg)
   this.emit('end')
 }
 
 gulp.task('build:scss', () => {
   return gulp.src(path.join('examples', 'assets', 'style.scss'))
     .pipe(sass({
-      outputStyle: 'nested',
-      precision  : 10,
+      outputStyle : 'nested',
+      precision   : 10,
       includePaths: ['.', 'node_modules'],
-      onError: showError
+      onError     : showError
     }).on('error', function(err) {
       showError(err)
       this.emit('end')
@@ -60,10 +59,10 @@ gulp.task('build:js', () => {
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
           .on('error', showError)
-        .pipe(source('flowly_text.js'))
+        .pipe(source('flowly.js'))
         .pipe(buffer())
         .pipe(gulp.dest('dist'))
-        .pipe(rename('flowly_text.min.js'))
+        .pipe(rename('flowly.min.js'))
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
           .on('error', showError)
@@ -75,9 +74,9 @@ gulp.task('build:js', () => {
 gulp.task('watch', ['build'], () => {
   browsersync.init({
     notify: false,
-    port: 9000,
+    port  : 9000,
     server: {
-      baseDir: [path.join('examples', 'pages'), path.join('examples', 'assets'), 'dist'],
+      baseDir  : [path.join('examples', 'pages'), path.join('examples', 'assets'), 'dist'],
       directory: true
     }
   })

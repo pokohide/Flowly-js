@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "JavaScript Library that flows text simply",
   "homepage": "https://github.com/hyde2able/Flowly#readme",
-  "main": "dist/flowly_text.js",
+  "main": "dist/flowly.js",
   "scripts": {
     "install": "npm run build",
     "build": "rm -rf dist && mkdir dist && browserify src/index.js --standalone Flowly -o dist/flowly_text.js && npm run babel",
-    "babel": "babel dist/flowly_text.js --no-babelrc --presets=es2015 --out-file dist/flowly_text.js && npm run minify",
-    "minify": "uglifyjs dist/flowly_text.js -o dist/flowly_text.min.js --source-map filename='dist/flowly_text.min.map'"
+    "babel": "babel dist/flowly.js --no-babelrc --presets=es2015 --out-file dist/flowly.js && npm run minify",
+    "minify": "uglifyjs dist/flowly.js -o dist/flowly.min.js --source-map filename='dist/flowly.min.map'"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "url": "https://github.com/hyde2able/Flowly/issues"
   },
   "keywords": [
-    "flowly_text",
+    "flowly-js",
     "npm",
     "javascript",
     "library"
