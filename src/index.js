@@ -1,6 +1,4 @@
-const rand = (value) => {
-  return Math.floor(value * Math.random())
-}
+import { rand } from './utils'
 
 class Flowly {
   constructor(elem, options = {}) {
@@ -15,8 +13,6 @@ class Flowly {
   addText(text) {
     const t = this._createText(text)
     this.app.appendChild(t)
-
-    console.log(this.rect)
 
     let effect
     if (this.opts.direction === 'horizontal') {
@@ -39,6 +35,10 @@ class Flowly {
     }
   }
 
+  hide() {
+
+  }
+
   update(options = {}) {
     this.opts = Object.assign(this.opts, options)
   }
@@ -53,14 +53,13 @@ class Flowly {
     t.className        = text.className || this.opts.text.className
     t.style.position   = 'absolute'
     t.style.left       = `${this.rect.left + this.rect.width}px`
-    t.style.top        = (this.rect.top + rand(this.rect.height - 40)) + 'px'
+    t.style.top        = rand(0, this.rect.height - size) + 'px'
     t.style.fontSize   = size + 'px'
     t.style.fontWeight = weight
     t.style.color      = color
     t.style.textShadow = `-2px -2px 0px ${shadow}, -2px 2px 0px ${shadow}, 2px -2px 0px ${shadow}, 2px 2px 0px ${shadow}`
     t.style.whiteSpace = this.opts.text.whiteSpace
     t.style.zIndex     = this.opts.text.zIndex
-    t.style.top 　　　　= rand(this.app.clientHeight - t.offsetHeight) + 'px'
 
     t.innerText = text.body
 
