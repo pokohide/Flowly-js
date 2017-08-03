@@ -22,7 +22,7 @@ gulp.task('clean', (cb) => {
 })
 
 gulp.task('build', ['clean'], () => {
-  gulp.start('build:js')
+  gulp.start('build:js', 'build:scss')
 })
 
 const showError = (arg) => {
@@ -34,6 +34,26 @@ const showError = (arg) => {
   console.log(arg)
   this.emit('end')
 }
+
+gulp.task('build:scss', () => {
+  return gulp.src(path.join('examples', 'assets', 'style.scss'))
+    .pipe(sass({
+      outputStyle: 'nested',
+      precision  : 10,
+      includePaths: ['.', 'node_modules'],
+      onError: showError
+    }).on('error', function(err) {
+      showError(err)
+      this.emit('end')
+    }))
+    .pipe(postcss([
+      autoprefixer({
+        browsers: ['last 2 versions', 'Firefox ESR', 'Explorer >= 9', 'Android >= 4.0', '> 2%']
+      })
+    ]))
+    .pipe(gulp.dest(path.join('examples', 'assets')))
+    .pipe(browsersync.stream({ match: '**/*.css' }))
+})
 
 gulp.task('build:js', () => {
   return browserify({ entries: path.join('src', 'index.js'), debug: true, standalone: 'Flowly' })

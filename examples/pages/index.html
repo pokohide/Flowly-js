@@ -3,12 +3,20 @@
 <head>
   <meta charset="utf-8">
   <title>テキストを流すJSプラグイン flowly-text-js</title>
+
+
+  <!-- Behavioral Meta Data -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <!-- Styles -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
-  <div id="container" style="width:500px;height:500px;border: 1px solid black;margin: 0 auto"></div>
+  <div id="container" style="width:500px;height:300px;margin: 0 auto;background-color:whitesmoke;"></div>
 
-  <form>
+  <form class="controls">
     <div class="field">
       <label>内容</label>
       <input type="text" class="flowly-text-input">
@@ -18,11 +26,19 @@
       <input type="number" value="56" class="text-size-input">
     </div>
     <div class="field">
+      <label>文字色</label>
+      <input type="text" value="#000000" class="text-color-input">
+    </div>
+    <div class="field">
+      <label>影色</label>
+      <input type="text" value="#ffffff" class="text-shadow-input">
+    </div>
+    <div class="field">
       <label>速さ</label>
       <input type="number" value="2000" class="text-duration-input">
     </div>
     <div class="action">
-      <button type="button" id="submit-button">挿入</button>
+      <button type="button" class="submit-button">挿入</button>
     </div>
   </form>
 
@@ -31,12 +47,20 @@
   <script type="text/javascript">
     var flowly = new Flowly('#container')
 
-    $('#submit-button').on('click', function(e) {
+    $('.submit-button').on('click', function(e) {
       e.preventDefault()
       var text = $('.flowly-text-input').val()
       var size = $('.text-size-input').val()
       var duration = $('.text-duration-input').val()
-      flowly.addText({ body: text, size: size, duration: duration })
+      var color = $('.text-color-input').val()
+      var shadow = $('.text-shadow-input').val()
+      flowly.addText({
+        body: text,
+        size: size,
+        duration: duration,
+        color: color,
+        shadow: shadow
+      })
     })
 
   </script>
