@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>テキストを流すJSプラグイン flowly-text-js</title>
+</head>
+
+<body>
+  <div id="container" style="width:500px;height:500px;border: 1px solid black;margin: 0 auto"></div>
+
+  <form>
+    <div class="field">
+      <label>内容</label>
+      <input type="text" class="flowly-text-input">
+    </div>
+    <div class="field">
+      <label>サイズ</label>
+      <input type="number" value="56" class="text-size-input">
+    </div>
+    <div class="field">
+      <label>速さ</label>
+      <input type="number" value="2000" class="text-duration-input">
+    </div>
+    <div class="action">
+      <button type="button" id="submit-button">挿入</button>
+    </div>
+  </form>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="../flowly_text.js"></script>
+  <script type="text/javascript">
+    var flowly = new Flowly('#container')
+
+    $('#submit-button').on('click', function(e) {
+      e.preventDefault()
+      var text = $('.flowly-text-input').val()
+      var size = $('.text-size-input').val()
+      var duration = $('.text-duration-input').val()
+      flowly.addText({ body: text, size: size, duration: duration })
+    })
+
+  </script>
+</body>
+</html>
