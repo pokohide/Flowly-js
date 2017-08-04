@@ -1,11 +1,10 @@
 {
   "name": "flowly-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JavaScript Library that flows text simply",
   "homepage": "https://github.com/hyde2able/Flowly#readme",
   "main": "dist/flowly.js",
   "scripts": {
-    "install": "npm run build",
     "build": "rm -rf dist && mkdir dist && browserify src/index.js --standalone Flowly -o dist/flowly_text.js && npm run babel",
     "babel": "babel dist/flowly.js --no-babelrc --presets=es2015 --out-file dist/flowly.js && npm run minify",
     "minify": "uglifyjs dist/flowly.js -o dist/flowly.min.js --source-map filename='dist/flowly.min.map'"
