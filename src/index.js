@@ -1,4 +1,4 @@
-import { rand } from './utils'
+import { rand, randomStr } from './utils'
 
 class Flowly {
   constructor(elem, options = {}) {
@@ -8,6 +8,7 @@ class Flowly {
 
     this.app.style.position = 'relative'
     this.app.style.overflow = 'hidden'
+    this.texts = new Map()
   }
 
   addText(text) {
@@ -38,17 +39,31 @@ class Flowly {
     timing.duration = (text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
     timing.easing = text.easing || this.opts.easing
 
+    const token = randomStr()
+    this.texts.set(token, t)
+
     t.animate(effect, timing).onfinish = () => {
       this.app.removeChild(t)
+      this.texts.delete(token)
     }
   }
 
-  hide() {
+  // if true show text, if false hide text
+  toggle(flag) {
+    if (flag) this.show()
+    else this.hide()
+  }
 
+  hide() {
+    for (let text of this.texts.values()) {
+      text.style.display = 'none'
+    }
   }
 
   show() {
-
+    for (let text of this.texts.values()) {
+      text.style.display = 'block'
+    }
   }
 
   update(options = {}) {

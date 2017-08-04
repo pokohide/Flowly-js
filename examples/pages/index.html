@@ -46,6 +46,10 @@
         <option value="horizontal" selected>Horizontal</option>
       </select>
     </div>
+    <div class="field">
+      <label>表示</label>
+      <input type="checkbox" class="check-text-display" checked>
+    </div>
     <div class="action">
       <button type="button" class="submit-button">挿入</button>
     </div>
@@ -61,6 +65,11 @@
     $('.select-text-direction').on('change', function() {
       var dir = $(this).val()
       flowly.update({ direction: dir })
+    })
+
+    $('.check-text-display').on('change', function() {
+      var flag = $(this).is(':checked')
+      flowly.toggle(flag)
     })
 
     $('.submit-button').on('click', function(e) {
