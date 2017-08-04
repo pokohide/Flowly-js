@@ -1,6 +1,6 @@
 {
   "name": "flowly-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript Library that flows text simply",
   "homepage": "https://github.com/hyde2able/Flowly#readme",
   "main": "dist/flowly.js",
