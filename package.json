@@ -1,10 +1,11 @@
 {
   "name": "flowly-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "JavaScript Library that flows text simply",
   "homepage": "https://github.com/hyde2able/Flowly#readme",
   "main": "dist/flowly.js",
   "scripts": {
+    "prepublish": "gulp build",
     "build": "rm -rf dist && mkdir dist && browserify src/index.js --standalone Flowly -o dist/flowly_text.js && npm run babel",
     "babel": "babel dist/flowly.js --no-babelrc --presets=es2015 --out-file dist/flowly.js && npm run minify",
     "minify": "uglifyjs dist/flowly.js -o dist/flowly.min.js --source-map filename='dist/flowly.min.map'"
@@ -45,6 +46,7 @@
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "gulp": "^3.9.1",
+    "gulp-header": "^1.8.9",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",

@@ -1,2 +1,5 @@
-dist
-examples
+.eslintrc
+gulpfile.js
+examples/
+src/
+test/

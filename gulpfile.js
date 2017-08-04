@@ -15,10 +15,17 @@ const source = require('vinyl-source-stream')
 const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 const util = require('gulp-util')
+const header = require('gulp-header')
 
 /* Clean dist folder */
 gulp.task('clean', (cb) => {
   rimraf('./dist', cb)
+})
+
+gulp.task('header', () => {
+  return gulp.src(['dist/**/*.js'])
+    .pipe(header(fs.readFileSync('./BANNER', 'utf-8'), require('./package.json')))
+    .pipe(gulp.dest('dist'))
 })
 
 gulp.task('build', ['clean'], () => {
