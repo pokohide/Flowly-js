@@ -16,6 +16,8 @@ const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 const util = require('gulp-util')
 const header = require('gulp-header')
+const plumber = require('gulp-plumber')
+const notify = require('gulp-notify')
 
 /* Clean dist folder */
 gulp.task('clean', (cb) => {
@@ -43,6 +45,7 @@ const showError = (arg) => {
 
 gulp.task('build:scss', () => {
   return gulp.src(path.join('examples', 'assets', 'style.scss'))
+    .pipe(plumber())
     .pipe(sass({
       outputStyle : 'nested',
       precision   : 10,
@@ -65,6 +68,7 @@ gulp.task('build:js', () => {
   return browserify({ entries: path.join('src', 'index.js'), debug: true, standalone: 'Flowly' })
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
+        .pipe(plumber())
           .on('error', showError)
         .pipe(source('flowly.js'))
         .pipe(buffer())

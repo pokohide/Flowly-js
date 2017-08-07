@@ -1,4 +1,5 @@
 import elementResizeEvent from 'element-resize-event'
+//import FlowlyText from 'flowly/text'
 import { rand, randomStr } from './utils'
 
 class Flowly {
@@ -12,29 +13,29 @@ class Flowly {
     this.rect = this.app.getBoundingClientRect()
     this.opts = Object.assign(this._defaultOptions(), options)
 
-    this.texts = new Map()
+    this.elems = new Map()
     elementResizeEvent(this.app, () => { this.resize() })
   }
 
-  addText(text) {
+  addImage(image) {
     if (this.opts.disable) return
-    const t = this._createText(text)
-    this.app.appendChild(t)
+    const i = this._createImage(image)
+    this.app.appendChild(i)
 
     let effect
     if (this.opts.direction === 'horizontal') {
-      t.style.left = `${this.rect.left + this.rect.width}px`
-      t.style.top  = rand(0, this.rect.height - t.clientHeight) + 'px'
+      i.style.left = `${this.rect.left + this.rect.width}px`
+      i.style.top  = rand(0, this.rect.height - i.clientHeight) + 'px'
       effect = [{
         left: `${this.rect.width}px`
       }, {
-        left: `${-t.clientWidth}px`
+        left: `${-i.clientWidth}px`
       }]
     } else if (this.opts.direction === 'vertical') {
-      t.style.left = rand(0, this.rect.width - t.clientWidth) + 'px'
-      t.style.top  = `${-t.clientHeight}px`
+      i.style.left = rand(0, this.rect.width - i.clientWidth) + 'px'
+      i.style.top  = `${-i.clientHeight}px`
       effect = [{
-        top: `${-t.clientHeight}px`,
+        top: `${-i.clientHeight}px`,
       }, {
         top: `${this.rect.height}px`
       }]
@@ -42,8 +43,8 @@ class Flowly {
 
     let timing = {}
     timing.iterations = 1
-    timing.duration = (text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
-    timing.easing = text.easing || this.opts.easing
+    timing.duration = (image.duration || this.opts.duration) * (this.app.clientWidth + i.offsetWidth) / this.app.clientWidth
+    timing.easing = image.easing || this.opts.easing
 
     const token = randomStr()
     this.texts.set(token, t)
@@ -54,6 +55,65 @@ class Flowly {
     }
   }
 
+  addText(text) {
+    if (this.opts.disable) return
+
+    const t = this._createText(text)
+    this.app.appendChild(t)
+
+    const effect = this._effect(t, this.opts.direction)
+
+    let timing = {}
+    timing.iterations = 1
+    timing.duration = (text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
+    timing.easing = text.easing || this.opts.easing
+
+    const token = randomStr()
+    this.elems.set(token, t)
+
+    t.animate(effect, timing).onfinish = () => {
+      this.app.removeChild(t)
+      this.elems.delete(token)
+    }
+  }
+
+  _effect(elem, type) {
+    if (type === 'horizontal') {
+      elem.style.left = (this.rect.left + this.rect.width) + 'px'
+      elem.style.top  = rand(0, this.rect.height - elem.clientHeight) + 'px'
+
+      return [{
+        left: this.rect.width + 'px'
+      }, {
+        left: (-elem.clientWidth) + 'px'
+      }]
+    } else if (type === 'vertical') {
+      elem.style.left = rand(0, this.rect.width - elem.clientWidth) + 'px'
+      elem.style.top  = (-elem.clientWidth) + 'px'
+
+      return [{
+        top: (-elem.clientHeight) + 'px'
+      }, {
+        top: this.rect.height + 'px'
+      }]
+    } else if (type === 'random') {
+      elem.style.opacity = 0.0
+      elem.style.left    = rand(0, this.rect.width) - elem.clientWidth / 2 + 'px'
+      elem.style.top     = rand(0, this.rect.height) - elem.clientHeight / 2 + 'px'
+
+      return [{
+        opacity: 0.0,
+        transform: 'scale(0.2, 0.2) translate(0, 20px)'
+      }, {
+        opacity: 1.0,
+        transform: 'scale(0.5, 0.5) translate(0, 0px)'
+      }, {
+        opacity: 0.0,
+        transform: 'scale(1.0, 1.0) translate(0, -50px)'
+      }]
+    }
+  }
+
   // if true show text, if false hide text
   toggle(flag) {
     if (flag) this.show()
@@ -61,14 +121,14 @@ class Flowly {
   }
 
   hide() {
-    for (let text of this.texts.values()) {
-      text.style.display = 'none'
+    for (let elem of this.elem.values()) {
+      elem.style.display = 'none'
     }
   }
 
   show() {
-    for (let text of this.texts.values()) {
-      text.style.display = 'block'
+    for (let elem of this.elem.values()) {
+      elem.style.display = 'block'
     }
   }
 
