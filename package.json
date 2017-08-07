@@ -1,6 +1,6 @@
 {
   "name": "flowly-js",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "JavaScript Library that flows text simply",
   "homepage": "https://github.com/hyde2able/Flowly#readme",
   "main": "dist/flowly.js",
@@ -31,6 +31,7 @@
   "dependencies": {
     "babel-cli": "^6.24.1",
     "browserify": "^14.4.0",
+    "element-resize-event": "^2.0.9",
     "eslint-loader": "^1.9.0",
     "object-assign": "^4.1.1",
     "raf": "^3.3.2",

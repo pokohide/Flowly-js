@@ -1,17 +1,23 @@
+import elementResizeEvent from 'element-resize-event'
 import { rand, randomStr } from './utils'
 
 class Flowly {
   constructor(elem, options = {}) {
+    /* APP */
+    this.elem = elem
     this.app = document.querySelector(elem)
+    this.app.style.position = 'relative'
+    this.app.style.overflow = 'hidden'
+
     this.rect = this.app.getBoundingClientRect()
     this.opts = Object.assign(this._defaultOptions(), options)
 
-    this.app.style.position = 'relative'
-    this.app.style.overflow = 'hidden'
     this.texts = new Map()
+    elementResizeEvent(this.app, () => { this.resize() })
   }
 
   addText(text) {
+    if (this.opts.disable) return
     const t = this._createText(text)
     this.app.appendChild(t)
 
@@ -66,9 +72,20 @@ class Flowly {
     }
   }
 
+  resize() {
+    this.app = document.querySelector(this.elem)
+    this.app.style.position = 'relative'
+    this.app.style.overflow = 'hidden'
+    this.rect = this.app.getBoundingClientRect()
+  }
+
   update(options = {}) {
-    console.log(options)
     this.opts = Object.assign(this.opts, options)
+  }
+
+  unbind() {
+    elementResizeEvent.unbind(this.app)
+    this.update({ disable: true })
   }
 
   _createText(text) {
@@ -103,6 +120,7 @@ class Flowly {
         whiteSpace: 'nowrap' || 'pre',
         zIndex: 2147483647,
       },
+      disable: false,
       duration: 2000,
       easing: 'linear',
       direction: 'horizontal',
