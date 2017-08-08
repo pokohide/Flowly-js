@@ -1,5 +1,7 @@
 # Flowly-JS
 
+Demo is [here](https://hyde2able.github.io/Flowly-js/)
+
 ## Setup
 
 Add Flowly.js to your project with `npm install --save https://github.com/hyde2able/Flowly-js` or `yarn add https://github.com/hyde2able/Flowly-js`.
