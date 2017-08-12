@@ -28,7 +28,7 @@ export default class FlowlyText extends Base {
   }
 
   addAnimation(text, rect, onfinish) {
-    const effect = this._createEffect(this.elem, rect, this.opts.direction)
+    const effect = this._createEffect(this.elem, rect, text.direction || this.opts.direction)
     const timing = this._createTiming(rect, text)
 
     this.elem.animate(effect, timing).onfinish = onfinish
