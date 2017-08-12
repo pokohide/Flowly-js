@@ -24,7 +24,7 @@ export default class FlowlyImage extends Base {
 
   addAnimation(image, rect, onfinish) {
     const effect = this._createEffect(this.elem, rect, this.opts.direction)
-    const timing = this._createTiming(image)
+    const timing = this._createTiming(rect, image)
 
     this.elem.animate(effect, timing).onfinish = onfinish
   }

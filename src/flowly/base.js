@@ -82,10 +82,10 @@ export default class Base {
     }
   }
 
-  _createTiming({ duration, easing }) {
+  _createTiming(rect, { duration, easing }) {
     let timing = {}
     timing.iterations = 1
-    timing.duration   = parseInt(duration || this.opts.duration, 10)
+    timing.duration   = parseInt(duration || this.opts.duration, 10) * (rect.width + this.elem.offsetWidth) / rect.width
     timing.easing     = easing || this.opts.easing
 
     return timing
