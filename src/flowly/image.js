@@ -9,7 +9,7 @@ export default class FlowlyImage extends Base {
   _createImage(image) {
     const t = document.createElement('img')
 
-    t.style.position = 'fixed'
+    t.style.position = 'absolute'
     t.className      = image.className || this.opts.image.className
     t.style.width    = image.width  || this.opts.image.width
     t.style.height   = image.height || this.opts.image.height

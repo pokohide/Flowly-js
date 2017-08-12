@@ -76,38 +76,6 @@ class Flowly {
     this.update({ disable: true })
   }
 
-  _createImage(image) {
-    const t = document.createElement('img')
-
-    t.style.position = 'fixed'
-    t.style.width  = image.width
-    t.style.height = image.height
-    t.style.zIndex = 2147483647
-    t.style.left   = this.rect.width + t.clientWidth + 'px'
-    t.style.top    = rand(this.rect.top, this.rect.height - t.clientHeight) + 'px'
-
-    t.addEventListener('load', (e) => {
-      const effect = this._effect(t, this.opts.direction)
-
-      let timing = {}
-      timing.iterations = 1
-      timing.duration = (image.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
-      timing.easing = image.easing || this.opts.easing
-
-      const token = randomStr()
-      this.elems.set(token, t)
-
-      t.animate(effect, timing).onfinish = () => {
-        this.app.removeChild(t)
-        this.elems.delete(token)
-      }
-    })
-
-    t.src = image.url
-    this.app.appendChild(t)
-    return t
-  }
-
   _defaultOptions() {
     return {
       text: {
@@ -127,7 +95,7 @@ class Flowly {
       disable: false,
       duration: 2000,
       easing: 'linear',
-      direction: 'horizontal',
+      direction: 'right',
     }
   }
 }
