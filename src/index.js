@@ -1,5 +1,5 @@
 import elementResizeEvent from 'element-resize-event'
-//import FlowlyText from 'flowly/text'
+import FlowlyText from './flowly/text'
 import { rand, randomStr } from './utils'
 
 class Flowly {
@@ -26,23 +26,22 @@ class Flowly {
   addText(text) {
     if (this.opts.disable) return
 
-    const t = this._createText(text)
-    this.app.appendChild(t)
+    const t = new FlowlyText(text, this.opts)
+    this.app.appendChild(t.elem)
+    this.elems.set(t.token, t)
 
-    const effect = this._effect(t, this.opts.direction)
-
+    // const t = this._createText(text)
+    // this.app.appendChild(t)
     let timing = {}
     timing.iterations = 1
-    timing.duration = (text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
+    timing.duration = 3000 //(text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
     timing.easing = text.easing || this.opts.easing
 
-    const token = randomStr()
-    this.elems.set(token, t)
-
-    t.animate(effect, timing).onfinish = () => {
-      this.app.removeChild(t)
-      this.elems.delete(token)
-    }
+    const effect = this._effect(t.elem, this.opts.direction)
+    t.addAnimation(effect, timing, () => {
+      this.app.removeChild(t.elem)
+      this.elems.delete(t.token)
+    })
   }
 
   // if true show text, if false hide text
@@ -53,13 +52,15 @@ class Flowly {
 
   hide() {
     for (let elem of this.elems.values()) {
-      elem.style.display = 'none'
+      elem.hide()
+      //elem.style.display = 'none'
     }
   }
 
   show() {
     for (let elem of this.elems.values()) {
-      elem.style.display = 'block'
+      elem.show()
+      //elem.style.display = 'block'
     }
   }
 

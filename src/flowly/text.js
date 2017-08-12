@@ -1,5 +1,8 @@
-export default class FlowlyText {
+import Base from './base'
+
+export default class FlowlyText extends Base {
   constructor(text, options) {
+    super()
     this.opts = options
     this.elem = this._createText(text)
   }
@@ -25,21 +28,15 @@ export default class FlowlyText {
     return t
   }
 
-  addAnimation(effect, timing, cb) {
-    this.elem.animate(effect, timing).onfinish = () => {
-      cb()
-    }
-  }
-
-  elem() {
-    return this.elem
+  addAnimation(effect, timing, onfinish) {
+    this.elem.animate(effect, timing).onfinish = onfinish
   }
 
   hide() {
-    this.text.style.display = 'none'
+    this.elem.style.display = 'none'
   }
 
   show() {
-    this.text.style.display = 'block'
+    this.elem.style.display = 'block'
   }
 }
