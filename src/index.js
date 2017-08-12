@@ -1,5 +1,6 @@
 import elementResizeEvent from 'element-resize-event'
 import FlowlyText from './flowly/text'
+import FlowlyImage from './flowly/image'
 import { rand, randomStr } from './utils'
 
 class Flowly {
@@ -20,7 +21,16 @@ class Flowly {
   addImage(image) {
     if (this.opts.disable) return
 
-    const t = this._createImage(image)
+    const t = new FlowlyImage(image, this.opts)
+    this.app.appendChild(t.elem)
+    t.onload((e) => {
+      this.elems.set(t.token, t)
+
+      t.addAnimation(image, this.rect, () => {
+        this.app.removeChild(t.elem)
+        this.elems.delete(t.token)
+      })
+    })
   }
 
   addText(text) {
@@ -30,15 +40,7 @@ class Flowly {
     this.app.appendChild(t.elem)
     this.elems.set(t.token, t)
 
-    // const t = this._createText(text)
-    // this.app.appendChild(t)
-    let timing = {}
-    timing.iterations = 1
-    timing.duration = 3000 //(text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
-    timing.easing = text.easing || this.opts.easing
-
-    const effect = this._effect(t.elem, this.opts.direction)
-    t.addAnimation(effect, timing, () => {
+    t.addAnimation(text, this.rect, () => {
       this.app.removeChild(t.elem)
       this.elems.delete(t.token)
     })
@@ -51,17 +53,11 @@ class Flowly {
   }
 
   hide() {
-    for (let elem of this.elems.values()) {
-      elem.hide()
-      //elem.style.display = 'none'
-    }
+    for (let elem of this.elems.values()) elem.hide()
   }
 
   show() {
-    for (let elem of this.elems.values()) {
-      elem.show()
-      //elem.style.display = 'block'
-    }
+    for (let elem of this.elems.values()) elem.show()
   }
 
   resize() {
@@ -78,27 +74,6 @@ class Flowly {
   unbind() {
     elementResizeEvent.unbind(this.app)
     this.update({ disable: true })
-  }
-
-  _createText(text) {
-    const color  = text.color  || this.opts.text.color
-    const shadow = text.shadow || this.opts.text.shadow
-    const size   = text.size   || this.opts.text.size
-    const weight = text.weight || this.opts.text.weight
-    const t = document.createElement('span')
-
-    t.className        = text.className || this.opts.text.className
-    t.style.position   = 'absolute'
-    t.style.fontSize   = size + 'px'
-    t.style.fontWeight = weight
-    t.style.color      = color
-    t.style.textShadow = `-2px -2px 0px ${shadow}, -2px 2px 0px ${shadow}, 2px -2px 0px ${shadow}, 2px 2px 0px ${shadow}`
-    t.style.whiteSpace = this.opts.text.whiteSpace
-    t.style.zIndex     = this.opts.text.zIndex
-
-    t.innerText = text.body
-
-    return t
   }
 
   _createImage(image) {
@@ -133,43 +108,6 @@ class Flowly {
     return t
   }
 
-  _effect(elem, type) {
-    if (type === 'horizontal') {
-      elem.style.left = (this.rect.left + this.rect.width) + 'px'
-      elem.style.top  = rand(0, this.rect.height - elem.clientHeight) + 'px'
-
-      return [{
-        left: this.rect.width + 'px'
-      }, {
-        left: (-elem.clientWidth) + 'px'
-      }]
-    } else if (type === 'vertical') {
-      elem.style.left = rand(0, this.rect.width - elem.clientWidth) + 'px'
-      elem.style.top  = (-elem.clientWidth) + 'px'
-
-      return [{
-        top: (-elem.clientHeight) + 'px'
-      }, {
-        top: this.rect.height + 'px'
-      }]
-    } else if (type === 'random') {
-      elem.style.opacity = 0.0
-      elem.style.left    = rand(0, this.rect.width) - elem.clientWidth / 2 + 'px'
-      elem.style.top     = rand(0, this.rect.height) - elem.clientHeight / 2 + 'px'
-
-      return [{
-        opacity: 0.0,
-        transform: 'scale(0.2, 0.2) translate(0, 20px)'
-      }, {
-        opacity: 1.0,
-        transform: 'scale(0.5, 0.5) translate(0, 0px)'
-      }, {
-        opacity: 0.0,
-        transform: 'scale(1.0, 1.0) translate(0, -50px)'
-      }]
-    }
-  }
-
   _defaultOptions() {
     return {
       text: {
@@ -180,6 +118,11 @@ class Flowly {
         className: 'flowly-text',
         whiteSpace: 'nowrap' || 'pre',
         zIndex: 2147483647,
+      },
+      image: {
+        height: '200px',
+        width : 'auto',
+        className: 'flowly-image',
       },
       disable: false,
       duration: 2000,

@@ -2,8 +2,7 @@ import Base from './base'
 
 export default class FlowlyText extends Base {
   constructor(text, options) {
-    super()
-    this.opts = options
+    super(options)
     this.elem = this._createText(text)
   }
 
@@ -28,15 +27,10 @@ export default class FlowlyText extends Base {
     return t
   }
 
-  addAnimation(effect, timing, onfinish) {
+  addAnimation(text, rect, onfinish) {
+    const effect = this._createEffect(this.elem, rect, this.opts.direction)
+    const timing = this._createTiming(text)
+
     this.elem.animate(effect, timing).onfinish = onfinish
-  }
-
-  hide() {
-    this.elem.style.display = 'none'
-  }
-
-  show() {
-    this.elem.style.display = 'block'
   }
 }

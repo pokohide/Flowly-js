@@ -1,33 +1,34 @@
-import { randomStr } from '../utils'
+import { rand, randomStr } from '../utils'
 
 export default class Base {
-  constructor() {
+  constructor(opts) {
     this.token = randomStr()
+    this.opts = opts
   }
 
-  _createEffect(elem, type) {
+  _createEffect(elem, rect, type) {
     if (type === 'horizontal') {
-      elem.style.left = (this.rect.left + this.rect.width) + 'px'
-      elem.style.top  = rand(0, this.rect.height - elem.clientHeight) + 'px'
+      elem.style.left = (rect.left + rect.width) + 'px'
+      elem.style.top  = rand(0, rect.height - elem.clientHeight) + 'px'
 
       return [{
-        left: this.rect.width + 'px'
+        left: rect.width + 'px'
       }, {
         left: (-elem.clientWidth) + 'px'
       }]
     } else if (type === 'vertical') {
-      elem.style.left = rand(0, this.rect.width - elem.clientWidth) + 'px'
+      elem.style.left = rand(0, rect.width - elem.clientWidth) + 'px'
       elem.style.top  = (-elem.clientWidth) + 'px'
 
       return [{
         top: (-elem.clientHeight) + 'px'
       }, {
-        top: this.rect.height + 'px'
+        top: rect.height + 'px'
       }]
     } else if (type === 'random') {
       elem.style.opacity = 0.0
-      elem.style.left    = rand(0, this.rect.width) - elem.clientWidth / 2 + 'px'
-      elem.style.top     = rand(0, this.rect.height) - elem.clientHeight / 2 + 'px'
+      elem.style.left    = rand(0, rect.width) - elem.clientWidth / 2 + 'px'
+      elem.style.top     = rand(0, rect.height) - elem.clientHeight / 2 + 'px'
 
       return [{
         opacity: 0.0,
@@ -42,10 +43,21 @@ export default class Base {
     }
   }
 
-  _createTiming() {
+  _createTiming({ duration, easing }) {
     let timing = {}
     timing.iterations = 1
-    timing.duration = 3000 // (text.duration || this.opts.duration) * (this.app.clientWidth + t.offsetWidth) / this.app.clientWidth
-    timing.easing = text.easing || this.opts.easing
+    timing.duration   = parseInt(duration || this.opts.duration, 10)
+    timing.easing     = easing || this.opts.easing
+
+    console.log(timing)
+    return timing
+  }
+
+  hide() {
+    this.elem.style.display = 'none'
+  }
+
+  show() {
+    this.elem.style.display = 'block'
   }
 }
