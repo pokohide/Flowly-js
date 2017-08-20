@@ -67,7 +67,9 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="../flowly.js"></script>
   <script type="text/javascript">
-    var flowly = new Flowly('#container')
+    var flowly = new Flowly('#container', {
+      padding: { bottom: 10, top: 10 }
+    })
 
     $('.select-text-direction').on('change', function() {
       var dir = $(this).val()

@@ -86,11 +86,18 @@ class Flowly {
         className: 'flowly-text',
         whiteSpace: 'nowrap' || 'pre',
         zIndex: 2147483647,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif'
       },
       image: {
         height: '200px',
         width : 'auto',
         className: 'flowly-image',
+      },
+      padding: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
       },
       disable: false,
       duration: 2000,
