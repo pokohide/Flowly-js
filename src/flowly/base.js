@@ -68,8 +68,8 @@ export default class Base {
       case 'random':
 
         elem.style.opacity = 0.0
-        elem.style.left    = rand(0, rect.width) - elem.clientWidth / 2 + 'px'
-        elem.style.top     = rand(0, rect.height) - elem.clientHeight / 2 + 'px'
+        elem.style.left    = rand(padding.left, rect.width - padding.right) - elem.clientWidth / 2 + 'px'
+        elem.style.top     = rand(padding.top, rect.height - padding-bottom) - elem.clientHeight / 2 + 'px'
 
         return [{
           opacity: 0.0,
