@@ -11,6 +11,7 @@ export default class FlowlyText extends Base {
     const shadow = text.shadow || this.opts.text.shadow
     const size   = text.size   || this.opts.text.size
     const weight = text.weight || this.opts.text.weight
+    const fontFamily = text.fontFamily || this.opts.text.fontFamily
     const t = document.createElement('span')
 
     t.className        = text.className || this.opts.text.className
@@ -18,6 +19,7 @@ export default class FlowlyText extends Base {
     t.style.fontSize   = size + 'px'
     t.style.fontWeight = weight
     t.style.color      = color
+    t.style.fontFamily = fontFamily
     t.style.textShadow = `-2px -2px 0px ${shadow}, -2px 2px 0px ${shadow}, 2px -2px 0px ${shadow}, 2px 2px 0px ${shadow}`
     t.style.whiteSpace = this.opts.text.whiteSpace
     t.style.zIndex     = this.opts.text.zIndex

@@ -7,11 +7,13 @@ export default class Base {
   }
 
   _createEffect(elem, rect, type) {
+    const { padding } = this.opts
+
     switch (type) {
       case 'right':
 
         elem.style.left = (rect.left + rect.width) + 'px'
-        elem.style.top  = rand(0, rect.height - elem.clientHeight) + 'px'
+        elem.style.top = rand(padding.top, rect.height - elem.clientHeight - padding.bottom) + 'px'
 
         return [{
           left: rect.width + 'px'
@@ -22,7 +24,7 @@ export default class Base {
       case 'left':
 
         elem.style.left = (-elem.clientWidth) + 'px'
-        elem.style.top  = rand(0, rect.height - elem.clientHeight) + 'px'
+        elem.style.top  = rand(padding.top, rect.height - elem.clientHeight - padding.bottom) + 'px'
 
         return [{
           left: (-elem.clientWidth) + 'px'
