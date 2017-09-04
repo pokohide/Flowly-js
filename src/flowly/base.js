@@ -69,7 +69,7 @@ export default class Base {
 
         elem.style.opacity = 0.0
         elem.style.left    = rand(padding.left, rect.width - padding.right) - elem.clientWidth / 2 + 'px'
-        elem.style.top     = rand(padding.top, rect.height - padding-bottom) - elem.clientHeight / 2 + 'px'
+        elem.style.top     = rand(padding.top, rect.height - padding.bottom) - elem.clientHeight / 2 + 'px'
 
         return [{
           opacity: 0.0,

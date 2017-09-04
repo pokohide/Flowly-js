@@ -5,6 +5,7 @@
   "homepage": "https://github.com/hyde2able/Flowly#readme",
   "main": "dist/flowly.js",
   "scripts": {
+    "start": "gulp watch",
     "prepublish": "gulp build",
     "build": "rm -rf dist && mkdir dist && browserify src/index.js --standalone Flowly -o dist/flowly_text.js && npm run babel",
     "babel": "babel dist/flowly.js --no-babelrc --presets=es2015 --out-file dist/flowly.js && npm run minify",
