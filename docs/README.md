@@ -1,1 +1,0 @@
-for GitHub Pages
